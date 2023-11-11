@@ -1,5 +1,5 @@
-const User = require('./schemas/user')
+const User = require("./schemas/user");
 
-const getUser = async (body) => User.findOne(body)
+const getUser = async (body) => User.findOne(body);
 
-module.exports = { getUser }
+module.exports = { getUser };
