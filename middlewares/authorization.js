@@ -12,21 +12,24 @@ const params = {
 };
 
 passport.use(
-  new Strategy(params, function (payload, done) {
-    User.find({ _id: payload.id })
-      .then(([user]) => {
-        if (!user) {
-          return done(new Error("User not found"));
-        }
-        return done(null, user);
-      })
-      .catch((err) => done(err));
+  new Strategy(params, async function (payload, done) {
+    try {
+      const [user] = await User.find({ _id: payload.id });
+
+      if (!user) {
+        return done(new Error("User not found"));
+      }
+
+      return done(null, user);
+    } catch (error) {
+      return done(error);
+    }
   })
 );
 
-const auth = (req, res, next) => {
-  passport.authenticate("jwt", { session: false }, (err, user) => {
-    if (!user || err) {
+const authorizeUser = (req, res, next) => {
+  passport.authenticate("jwt", { session: false }, (error, user) => {
+    if (!user || error) {
       return res.status(401).json({
         status: "error",
         code: 401,
@@ -39,4 +42,4 @@ const auth = (req, res, next) => {
   })(req, res, next);
 };
 
-module.exports = { auth };
+module.exports = { authorizeUser };

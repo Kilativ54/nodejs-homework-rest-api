@@ -2,7 +2,6 @@ const { userValidator } = require("../../utils/validators/validator");
 const service = require("../../service/users");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
 const secret = process.env.SECRET;
 
 const login = async (req, res, next) => {
@@ -16,7 +15,7 @@ const login = async (req, res, next) => {
     return res.status(401).json({
       status: "error",
       code: 401,
-      message: "Email or password is wrong",
+      message: "Incorrect email or password",
       data: "Unauthorized",
     });
   }
@@ -29,11 +28,15 @@ const login = async (req, res, next) => {
   const token = jwt.sign(payload, secret, { expiresIn: "1h" });
   user.setToken(token);
   await user.save();
-  res.json({
-    token,
-    user: {
-      email: user.email,
-      subscription: user.subscription,
+  res.status(200).json({
+    status: "success",
+    code: 200,
+    data: {
+      token,
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+      },
     },
   });
 };
