@@ -7,6 +7,8 @@ const updateSubscription = require("./updateSubscription");
 const updateAvatar = require("./updateAvatar");
 const isCorrectResizedImage = require("./isCorrectResizedImage");
 const deleteUserByMail = require("./deleteUserByMail");
+const verifyUserByToken = require("./verifyUserByToken");
+const resendVerificationMail = require("./resendVerificationMail");
 
 module.exports = {
   register,
@@ -18,4 +20,6 @@ module.exports = {
   updateAvatar,
   isCorrectResizedImage,
   deleteUserByMail,
+  verifyUserByToken,
+  resendVerificationMail,
 };
